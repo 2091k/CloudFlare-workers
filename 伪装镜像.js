@@ -1,5 +1,5 @@
 const upstream = 'raw.githubusercontent.com';
-const upstream_mobile = 'www.google.com';
+const upstream_mobile = 'raw.githubusercontent.com';
 const blocked_region = ['RU'];
 const blocked_ip_address = ['0.0.0.0', '127.0.0.1'];
 
