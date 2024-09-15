@@ -83,7 +83,7 @@ async function handleRequest(request) {
         <body>
           <div class="container">
             <h1 class="mt-5">文件上传成功</h1>
-            <p>文件已成功上传，并已发送到 Telegram 平台。</p>
+            <p>文件已成功上传啦，你真棒！！！</p>
             <div id="uploadedImageContainer" class="mt-3">
               <form id="uploadForm" action="/" method="post" enctype="multipart/form-data" class="mt-5">
                 <div class="form-group">
