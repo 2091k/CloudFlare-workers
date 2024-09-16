@@ -91,7 +91,7 @@ async function handleRequest(request) {
           }
           input[type="text"] {
             background-color: #f0f0f0;
-            width: 100%;
+            width: 97%;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 4px;
@@ -114,7 +114,7 @@ async function handleRequest(request) {
             text-align: center;
           }
           .image-preview img {
-            max-width: 100%;
+            max-width: 97%;
             height: auto;
             border: 1px solid #ccc;
             padding: 10px;
