@@ -58,133 +58,146 @@ async function handleRequest(request) {
       const proxyUrl = `https://tg-files.oo.me.eu.org?file_path=${filePath}`;
 
       return new Response(`
-        <!DOCTYPE html>
-        <html lang="zh-CN">
-        <head>
-          <meta charset="UTF-8">
-          <meta name="viewport" content="width=device-width, initial-scale=1.0">
-          <title>文件上传成功</title>
-          <link rel="stylesheet" href="https://jasu.oo.me.eu.org/https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-          <style>
-            .spinner-border {
-              width: 3rem;
-              height: 3rem;
-              border-width: 0.4em;
-            }
-            .spinner-container {
-              display: none;
-              position: absolute;
-              top: 50%;
-              left: 50%;
-              transform: translate(-50%, -50%);
-            }
-          </style>
-        </head>
-        <body>
-          <div class="container">
-            <h1 class="mt-5">文件上传成功</h1>
-            <p>文件已成功上传啦，你真棒！！！</p>
-            <div id="uploadedImageContainer" class="mt-3">
-              <form id="uploadForm" action="/" method="post" enctype="multipart/form-data" class="mt-5">
-                <div class="form-group">
-                  <label for="fileInput">选择文件：</label>
-                  <input type="file" id="fileInput" name="file" class="form-control-file">
-                </div>
-                <button type="submit" class="btn btn-primary">上传文件</button>
-              </form>
-              <div class="spinner-container" id="spinner">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="sr-only">加载中...</span>
-                </div>
-              </div>
-              <h4>上传的图片：</h4>
-              <p>图片 URL：<input type="text" id="imageUrl" class="form-control" value="${proxyUrl}" readonly></p>
-              <button id="copyImageUrlBtn" class="btn btn-secondary mt-2">复制 URL</button>
-              <p class="mt-3">Markdown格式：<input type="text" id="markdownUrl" class="form-control" value="![image](${proxyUrl})" readonly></p>
-              <button id="copyMarkdownBtn" class="btn btn-secondary mt-2">复制 Markdown</button>
-              </br>
-              <img id="uploadedImage" src="${proxyUrl}" alt="Uploaded Image" class="img-fluid mt-3">
-            </div>
-          </div>
-          <script src="https://jasu.oo.me.eu.org/https://code.jquery.com/jquery-3.5.1.min.js"></script>
-          <script src="https://jasu.oo.me.eu.org/https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
-          <script>
-            $(document).ready(function() {
-              $('#copyImageUrlBtn').click(function() {
-                const imageUrl = document.getElementById('imageUrl');
-                imageUrl.select();
-                document.execCommand('copy');
-                alert('图片 URL 已复制');
-              });
-
-              $('#copyMarkdownBtn').click(function() {
-                const markdownUrl = document.getElementById('markdownUrl');
-                markdownUrl.select();
-                document.execCommand('copy');
-                alert('Markdown 已复制');
-              });
-
-              $('#uploadForm').on('submit', function() {
-                $('#spinner').show(); // 显示转圈动画
-              });
-            });
-          </script>
-        </body>
-        </html>
-      `, {
-        headers: { 'content-type': 'text/html' },
-      });
-
-    } catch (err) {
-      return new Response('发生错误：' + err.message, { status: 500 });
-    }
-  } else {
-    return new Response(`
       <!DOCTYPE html>
       <html lang="zh-CN">
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>TG图床</title>
-        <link rel="stylesheet" href="https://jasu.oo.me.eu.org/https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <title>文件上传成功</title>
         <style>
-          .spinner-border {
-            width: 3rem;
-            height: 3rem;
-            border-width: 0.4em;
+          body {
+            font-family: Arial, sans-serif;
+            background-color: #f7f7f7;
+            margin: 0;
+            padding: 0;
           }
-          .spinner-container {
-            display: none;
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
+          .container {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+          }
+          h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #bfbfbf;
+          }
+          p {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+          }
+          input[type="text"] {
+            background-color: #f0f0f0;
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            margin-bottom: 10px;
+          }
+          button {
+            background-color: #007bff;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+          }
+          button:hover {
+            background-color: #0056b3;
+          }
+          .image-preview {
+            margin-top: 20px;
+            text-align: center;
+          }
+          .image-preview img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            border-radius: 8px;
+            background-color: #fff;
+          }
+          /* 夜间模式的样式 */
+          body.dark-mode {
+            background-color: #333;
+            color: #f7f7f7;
+          }
+          body.dark-mode .container {
+            background-color: #444;
+          }
+          /* 太阳/月亮按钮样式 */
+          .dark-mode-toggle {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: #333;
+            transition: color 0.3s ease;
+          }
+          body.dark-mode .dark-mode-toggle {
+            color: #f7f7f7;
           }
         </style>
       </head>
       <body>
         <div class="container">
-          <h1 class="mt-5">TG图床</h1>
-          <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="fileInput">选择文件：</label>
-              <input type="file" id="fileInput" name="file" class="form-control-file">
-            </div>
-            <button type="submit" class="btn btn-primary">上传文件</button>
-          </form>
-          <div class="spinner-container" id="spinner">
-            <div class="spinner-border text-primary" role="status">
-              <span class="sr-only">加载中...</span>
-            </div>
+          <h1>TG图床</h1>
+          <p>文件已成功上传！</p>
+          <label>图片URL：</label>
+          <input type="text" id="imageUrl" value="${proxyUrl}" readonly>
+          <button id="copyImageUrlBtn">复制图片URL</button>
+          </br>
+          <label>Markdown格式：</label>
+          <input type="text" id="markdownUrl" value="![image](${proxyUrl})" readonly>
+          <button id="copyMarkdownBtn">复制Markdown</button>
+    
+          <div class="image-preview">
+            <img src="${proxyUrl}" alt="Uploaded Image">
           </div>
         </div>
-        <script src="https://jasu.oo.me.eu.org/https://code.jquery.com/jquery-3.5.1.min.js"></script>
-        <script src="https://jasu.oo.me.eu.org/https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+        <!-- 太阳/月亮切换按钮 -->
+        <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
         <script>
-          $(document).ready(function() {
-            $('#uploadForm').on('submit', function() {
-              $('#spinner').show(); // 显示转圈动画
-            });
+        // 切换白天/夜间模式
+        const toggleButton = document.getElementById('darkModeToggle');
+        const body = document.body;
+  
+        // 检查 localStorage 中是否存储了用户的模式偏好
+        if (localStorage.getItem('dark-mode') === 'true') {
+          body.classList.add('dark-mode');
+          toggleButton.textContent = '☀'; // 如果是暗夜模式，显示太阳图标
+        }
+  
+        toggleButton.addEventListener('click', () => {
+          body.classList.toggle('dark-mode');
+          const isDarkMode = body.classList.contains('dark-mode');
+  
+          // 切换按钮图标
+          toggleButton.textContent = isDarkMode ? '☀' : '🌙';
+  
+          // 将用户的选择存储到 localStorage 中
+          localStorage.setItem('dark-mode', isDarkMode);
+        });
+
+          document.getElementById('copyImageUrlBtn').addEventListener('click', function() {
+            var imageUrl = document.getElementById('imageUrl');
+            imageUrl.select();
+            document.execCommand('copy');
+            alert('图片URL已复制');
+          });
+    
+          document.getElementById('copyMarkdownBtn').addEventListener('click', function() {
+            var markdownUrl = document.getElementById('markdownUrl');
+            markdownUrl.select();
+            document.execCommand('copy');
+            alert('Markdown已复制');
           });
         </script>
       </body>
@@ -192,6 +205,151 @@ async function handleRequest(request) {
     `, {
       headers: { 'content-type': 'text/html' },
     });
+    
+
+    } catch (err) {
+      return new Response('发生错误：' + err.message, { status: 500 });
+    }
+  } else {
+
+    return new Response(`
+  <!DOCTYPE html>
+  <html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f7f7f7;
+        margin: 0;
+        padding: 0;
+        transition: background-color 0.3s ease, color 0.3s ease;
+      }
+      .container {
+        max-width: 600px;
+        margin: 50px auto;
+        background-color: #fff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #bfbfbf;
+      }
+      form {
+        display: flex;
+        flex-direction: column;
+      }
+      input[type="file"] {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        margin-bottom: 20px;
+      }
+      button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 10px 15px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      /* 添加旋转动画的样式 */
+      .spinner {
+        display: none;
+        width: 3rem;
+        height: 3rem;
+        border: 0.4em solid #ccc;
+        border-top: 0.4em solid #007bff;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 20px auto;
+      }
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      /* 夜间模式的样式 */
+      body.dark-mode {
+        background-color: #333;
+        color: #f7f7f7;
+      }
+      body.dark-mode .container {
+        background-color: #444;
+      }
+      /* 太阳/月亮按钮样式 */
+      .dark-mode-toggle {
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        font-size: 24px;
+        cursor: pointer;
+        background: none;
+        border: none;
+        color: #333;
+        transition: color 0.3s ease;
+      }
+      body.dark-mode .dark-mode-toggle {
+        color: #f7f7f7;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>TG图床</h1>
+      <form id="uploadForm" action="/" method="post" enctype="multipart/form-data">
+        <input type="file" name="file" accept="image/*">
+        <button type="submit">上传</button>
+      </form>
+      <!-- 动画的div -->
+      <div id="spinner" class="spinner"></div>
+    </div>
+
+    <!-- 太阳/月亮切换按钮 -->
+    <button id="darkModeToggle" class="dark-mode-toggle">🌙</button>
+
+    <script>
+      document.getElementById('uploadForm').addEventListener('submit', function() {
+        // 当表单提交时，显示加载动画
+        document.getElementById('spinner').style.display = 'block';
+      });
+
+      // 切换白天/夜间模式
+      const toggleButton = document.getElementById('darkModeToggle');
+      const body = document.body;
+
+      // 检查 localStorage 中是否存储了用户的模式偏好
+      if (localStorage.getItem('dark-mode') === 'true') {
+        body.classList.add('dark-mode');
+        toggleButton.textContent = '☀'; // 如果是暗夜模式，显示太阳图标
+      }
+
+      toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        const isDarkMode = body.classList.contains('dark-mode');
+
+        // 切换按钮图标
+        toggleButton.textContent = isDarkMode ? '☀' : '🌙';
+
+        // 将用户的选择存储到 localStorage 中
+        localStorage.setItem('dark-mode', isDarkMode);
+      });
+    </script>
+  </body>
+  </html>
+`, {
+  headers: { 'content-type': 'text/html' },
+});
+
+
+  
   }
 }
 
